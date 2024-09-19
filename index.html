@@ -3,22 +3,28 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Playful Moves</title>
-   
+    <title>playful moves</title>
+    <link href="./style.css" rel="stylesheet" type="text/css" media="all">
   </head>
   <body>
-  <script>
-  // https://developer.mozilla.org/en-US/docs/Web/API/DeviceOrientationEvent
-  window.addEventListener("deviceorientation", (event) => {
-  console.log(`${event.alpha} : ${event.beta} : ${event.gamma}`);
-  document.getElementById("alpha").textContent = `α: ${event.alpha.toFixed(2)}`;
-  document.getElementById("beta").textContent = `β: ${event.beta.toFixed(2)}`;
-  document.getElementById("gamma").textContent = `γ: ${event.gamma.toFixed(2)}`;
-  });
-  </script>
-  <p id="alpha">alpha</p>
-  <p id="beta">beta</p>
-  <p id="gamma">gamma</p>
+  <header>
+  <h1>playful moves</h1>
+  </header>
+  <main>
+  <p>actividades interactivas para rehabilitación y entrenamiento físico.</p>
+  <ul>
+    <li><a href="./flex.html">flex</a>: sonificación de flexión y extensión</li>
+  </ul>
+  <p><a href="https://github.com/MovIntPlayLab/PlayfulMoves/" rel="external" target="_blank"><i>work in progress</i></a></p>
+  </main>
   <footer>
+  <details>
+  <summary>© josé vega | <a href="https://movintplaylab.com" rel="external" target="_blank">movintplaylab</a> | <a href="https://bodyintransit.eu" rel="external" target="_blank">bodyintransit</a></summary>
+  <p>
+  <em>playful moves</em> es desarrollado por José Vega-Cebrián como parte de su tesis de doctorado Playful Wearables for Body Experiences, Physical Training and Rehabilitation en el programa de Ciencia y Tecnología Informática de la Universidad Carlos III de Madrid.</p> 
+  <p>Forma parte de los proyectos de investigación: <a href="https://movintplaylab.com" rel="external" target="_blank">MovIntPlayLab-CM-UC3M</a>, acción financiada por la Comunidad de Madrid a través de la línea "Fondos de Investigación para las Ayudas Beatriz Galindo" del Convenio Plurianual con la UC3M (MovIntPlayLab-CM-UC3M), en el marco del V PRICIT (V Plan Regional de Investigación Científica e Innovación Tecnológica) y <a href="https://bodyintransit.eu" rel="external" target="_blank">BODYinTRANSIT</a>, Proyecto europeo financiado por el Consejo Europeo de Investigación (CEI) en el marco del programa de investigación e innovación Horizonte 2020 de la Unión Europea (acuerdo de subvención nº 101002711).
+  </p>
+  <p><a href="https://github.com/MovIntPlayLab/PlayfulMoves/" rel="external" target="_blank">código fuente</a></p>
+  </details>
   </footer>
 </body></html>
