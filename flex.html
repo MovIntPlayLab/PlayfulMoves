@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flex- Playful Moves</title>
+    <script src="https://unpkg.com/tone@15.0.4/build/Tone.js"></script>
 
   <style>
   body{
@@ -40,7 +41,8 @@
   </head>
   <body>
   <script>
-const playThreshold = 0.01;
+const playThreshold = 0.02;
+const synth = new Tone.DuoSynth().toDestination();
 let sensor = null; // https://developer.mozilla.org/en-US/docs/Web/API/Sensor_APIs#defensive_programming
 let qA = [0, 0, 0, 1];
 let qB = [0, 0, 0, 1];
@@ -107,10 +109,12 @@ try{
     }
 
     if(!playedA && (isReady || saveA) && deltaA<=playThreshold){
+      doPlayA();
       playedA = true;
       document.body.style.backgroundColor = "#73C8A9";
     }
     if(!playedB && (isReady || saveA)  && deltaB<=playThreshold){
+      doPlayB();
       playedB = true;
       document.body.style.backgroundColor = "#E1B866";
     }
@@ -118,7 +122,6 @@ try{
       playedA = false; playedB = false;
       document.body.style.backgroundColor = "#373B44";
     }
-
 
     saveA = false;
     saveB = false;
@@ -148,6 +151,14 @@ function doSaveA(){
   saveA = true;
   areSaved = areSaved + 1;
   let x = navigator.vibrate(100);
+}
+
+function doPlayA(){
+  synth.triggerAttackRelease("C3", "32n");
+}
+
+function doPlayB(){
+  synth.triggerAttackRelease("C4", "32n");
 }
 
 function doSaveB(){
