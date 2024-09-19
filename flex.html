@@ -19,6 +19,7 @@
     border: none;
     border-radius: 20px;
     font-size: large;
+    color: #373B44;
   }
   #buttonA, #buttonB{
     font-size: xx-large;
@@ -29,7 +30,7 @@
   #buttonB{
     background-color: #E1B866;
   }
-  #instrucciones{
+  #instrucciones, #debug, #app{
     display:none;
   }
   h1{
@@ -47,57 +48,6 @@ let areSaved = 0;
 let saveA = false, saveB = false;
 let playedA = false, playedB = false;
 let delta = 0;
-
-function createUI(){
-  let app = document.getElementById("app");
-  let bA = document.createElement("button");
-  bA.id = "buttonA";
-  bA.innerText = "A";
-  bA.addEventListener("click", doSaveA);
-  app.appendChild(bA);
-
-  let bB = document.createElement("button");
-  bB.id = "buttonB";
-  bB.innerText = "B";
-  bB.addEventListener("click", doSaveB);
-  app.appendChild(bB);
-}
-
-function createDebugUI(){
-  let debug = document.getElementById("debug");
-  let t = document.createElement("p");
-  t.id = "quaternion";
-  t.innerText = "hola";
-  debug.appendChild(t);
-
-  let tA = document.createElement("p");
-  tA.id = "quaternionA";
-  debug.appendChild(tA);
-
-  let tB = document.createElement("p");
-  tB.id = "quaternionB";
-  debug.appendChild(tB);
-
-  let slider = document.createElement("input");
-  slider.setAttribute("type", "range");
-  slider.min = 0;
-  slider.max = 1;
-  slider.step = 0.01;
-  slider.id = "slider";
-  debug.appendChild(slider);
-
-  let td = document.createElement("p");
-  td.id = "delta";
-  debug.appendChild(td);
-
-  let tdA = document.createElement("p");
-  tdA.id = "deltaA";
-  debug.appendChild(tdA);
-
-  let tdB = document.createElement("p");
-  tdB.id = "deltaB";
-  debug.appendChild(tdB);
-}
 
 function updateDebugUI(q, qA, qB, param, deltaA, deltaB){
   document.getElementById("quaternion").textContent = `${q[0].toFixed(3)} ${q[1].toFixed(3)} ${q[2].toFixed(3)} ${q[3].toFixed(3)}`;
@@ -209,8 +159,8 @@ function doSaveB(){
 function start(){
   document.documentElement.requestFullscreen();
   document.getElementById("instrucciones").style.display = "none";
-  createUI();
-  createDebugUI();
+  document.getElementById("debug").style.display = "block";
+  document.getElementById("app").style.display = "block";
 }
   </script>
   <main>
@@ -225,8 +175,20 @@ function start(){
     </ol>
     <button id="start" onclick="start()">comenzar</button>
   </div>
-  <div id="debug"></div>
-  <div id="app"></div>
+  <div id="app">
+  <button id="buttonA" onclick="doSaveA()">A</button>
+  <button id="buttonB" onclick="doSaveB()">B</button>
+  </div>
+  <details id="debug">
+  <summary>debug</summary>
+  <p id="quaternion"></p>
+  <p id="quaternionA"></p>
+  <p id="quaternionB"></p>
+  <input type="range" min="0" max="1" step="0.01" id="slider"/>
+  <p id="delta"></p>
+  <p id="deltaA"></p>
+  <p id="deltaB"></p>
+  </details>
   </main>
   <footer>
   </footer>
