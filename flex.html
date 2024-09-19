@@ -169,23 +169,25 @@ function doSaveB(){
 
 function start(){
   document.documentElement.requestFullscreen();
-  document.getElementById("instrucciones").style.display = "none";
+  document.getElementById("instrucciones").removeAttribute("open");
+  document.getElementById("start").style.display = "none";
   document.getElementById("debug").style.display = "block";
   document.getElementById("app").style.display = "block";
 }
   </script>
   <main>
   <p id="texto">Esta aplicación no funciona con tu navegador, prueba utilizando Chrome 67+ en Android, Samsung Internet 9.0+, u Opera 48+ en Android.</p>
-  <div id="instrucciones">
-    <h1>flex</h1>
-    <ol>
-        <li>coloca el dispositivo de forma distal a la articulación a ejercitar.</li>
-        <li>realiza una extensión máxima y presiona el botón A para guardar la posición.</li>
-        <li>realiza una flexión máxima y presiona el botón B para guardar la posición.</li>
-        <li>flexiona y extiende tratando de llegar a los puntos guardados.</li>
-    </ol>
-    <button id="start" onclick="start()">comenzar</button>
-  </div>
+ <details open id="instrucciones">
+  <summary>?</summary>
+  <h1>flex</h1>
+  <ol>
+      <li>coloca el dispositivo de forma distal a la articulación a ejercitar.</li>
+      <li>realiza una extensión máxima y presiona el botón A para guardar la posición.</li>
+      <li>realiza una flexión máxima y presiona el botón B para guardar la posición.</li>
+      <li>flexiona y extiende tratando de llegar a los puntos guardados.</li>
+  </ol>
+  <button id="start" onclick="start()">comenzar</button>
+  </details>
   <div id="app">
   <button id="buttonA" onclick="doSaveA()">A</button>
   <button id="buttonB" onclick="doSaveB()">B</button>
