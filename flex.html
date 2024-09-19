@@ -39,12 +39,13 @@
   </head>
   <body>
   <script>
+const playThreshold = 0.01;
 let sensor = null; // https://developer.mozilla.org/en-US/docs/Web/API/Sensor_APIs#defensive_programming
 let qA = [0, 0, 0, 1];
 let qB = [0, 0, 0, 1];
 let areSaved = 0;
-let saveA = false;
-let saveB = false;
+let saveA = false, saveB = false;
+let playedA = false, playedB = false;
 let delta = 0;
 
 function createUI(){
@@ -128,6 +129,7 @@ try{
   });
   
   sensor.addEventListener("reading", () => {
+    let isReady = areSaved>1;
     let q = sensor.quaternion;
     if(saveA){ 
       qA = structuredClone(q);
@@ -135,19 +137,17 @@ try{
     if(saveB){
       qB = structuredClone(q);
     }
-    if((saveA||saveB) && areSaved>1){
+    if((saveA||saveB) && isReady){
       // calculate total distance between A and B
       // to be able to calculate where we are in between
       delta = distance(qA, qB);
     }
-    saveA = false;
-    saveB = false;
 
     let deltaA = distance(q, qA);
     let deltaB = distance(q, qB);
 
     let param = 0;
-    if(areSaved>1){
+    if(isReady){
       // calculate param, where 0 is closer to A and 1 is closer to B
       param = deltaA/(deltaA+deltaB);
       // too far from A, overflow:
@@ -155,6 +155,23 @@ try{
       // too far from B, underflow:
       else if(deltaB/delta > 1){ param = -deltaA/delta; }
     }
+
+    if(!playedA && (isReady || saveA) && deltaA<=playThreshold){
+      playedA = true;
+      document.body.style.backgroundColor = "#73C8A9";
+    }
+    if(!playedB && (isReady || saveA)  && deltaB<=playThreshold){
+      playedB = true;
+      document.body.style.backgroundColor = "#E1B866";
+    }
+    if(deltaA>playThreshold && deltaB>playThreshold){
+      playedA = false; playedB = false;
+      document.body.style.backgroundColor = "#373B44";
+    }
+
+
+    saveA = false;
+    saveB = false;
     updateDebugUI(q, qA, qB, param, deltaA, deltaB);
   });
 }
