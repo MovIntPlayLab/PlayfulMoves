@@ -3,14 +3,20 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Playful Moves - Flex</title>
+    <title>Flex- Playful Moves</title>
 
+  <style>
+  #instrucciones{
+    display:none;
+  }
+  </style>
   </head>
   <body>
   <script>
 let sensor = null; // https://developer.mozilla.org/en-US/docs/Web/API/Sensor_APIs#defensive_programming
 let qA = [0, 0, 0, 1];
 let qB = [0, 0, 0, 1];
+let areSaved = 0;
 let saveA = false;
 let saveB = false;
 
@@ -55,9 +61,8 @@ try{
       // START!
       sensor.start();
       document.getElementById("texto").remove();
-      createUI();
-      createDebugUI();
-      
+      document.getElementById("instrucciones").style.display = "block";
+
     } else {
       document.getElementById("texto").textContent = "No permissions to use AbsoluteOrientationSensor.";
     }
@@ -100,17 +105,35 @@ function distance(q1, q2){ // https://math.stackexchange.com/questions/90081/qua
 }
 
 function doSaveA(){
- saveA = true;
- let x = navigator.vibrate(100);
+  saveA = true;
+  areSaved = areSaved + 1;
+  let x = navigator.vibrate(100);
 }
 
 function doSaveB(){
- saveB = true;
- let x = navigator.vibrate(100);
+  saveB = true;
+  areSaved = areSaved + 1;
+  let x = navigator.vibrate(100);
+}
+
+function start(){
+  document.getElementById("instrucciones").style.display = "none";
+  createUI();
+  createDebugUI();
 }
   </script>
   <main>
   <p id="texto">Esta aplicación no funciona con tu navegador, prueba utilizando Chrome 67+ en Android, Samsung Internet 9.0+, u Opera 48+ en Android.</p>
+  <div id="instrucciones">
+    <h1>flex</h1>
+    <ol>
+        <li>coloca el dispositivo de forma distal a la articulación a ejercitar.</li>
+        <li>realiza una extensión máxima y presiona el botón A para guardar la posición.</li>
+        <li>realiza una flexión máxima y presiona el botón B para guardar la posición.</li>
+        <li>flexiona y extiende tratando de llegar a los puntos guardados.</li>
+    </ol>
+    <button id="start" onclick="start()">comenzar</button>
+  </div>
   <div id="debug"></div>
   <div id="app"></div>
   </main>
