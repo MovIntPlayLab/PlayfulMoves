@@ -1,0 +1,42 @@
+{
+   "name": "playful moves",
+   "short_name" : "playful moves",
+   "scope" : "https://movintplaylab.com/PlayfulMoves/",
+   "start_url" : "https://movintplaylab.com/PlayfulMoves/",
+   "display" : "fullscreen", 
+   "orientation" : "portrait",
+   "icons": [
+      {
+      "src": "./512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+   },
+   {
+      "src": "./192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
+   },
+   {
+      "src": "./512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+   },
+   {
+      "src": "./192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "maskable"
+   }
+  ],
+  "screenshots": [
+      {
+      "src": "./512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+   }
+  ]
+
+}
