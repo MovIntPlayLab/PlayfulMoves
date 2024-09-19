@@ -9,8 +9,39 @@
   <body>
   <script>
 let sensor = null; // https://developer.mozilla.org/en-US/docs/Web/API/Sensor_APIs#defensive_programming
-var qA = [0, 0, 0, 1];
-var saveA = false;
+let qA = [0, 0, 0, 1];
+let qB = [0, 0, 0, 1];
+let saveA = false;
+let saveB = false;
+
+function createUI(){
+  let app = document.getElementById("app");
+  let bA = document.createElement("button");
+  bA.innerText = "A";
+  bA.addEventListener("click", doSaveA);
+  app.appendChild(bA);
+
+  let bB = document.createElement("button");
+  bB.innerText = "B";
+  bB.addEventListener("click", doSaveB);
+  app.appendChild(bB);
+}
+
+function createDebugUI(){
+  let debug = document.getElementById("debug");
+  let t = document.createElement("p");
+  t.id = "quaternion";
+  t.innerText = "hola";
+  debug.appendChild(t);
+
+  let tA = document.createElement("p");
+  tA.id = "quaternionA";
+  debug.appendChild(tA);
+
+  let tB = document.createElement("p");
+  tB.id = "quaternionB";
+  debug.appendChild(tB);
+}
 
 try{
   // https://developer.mozilla.org/en-US/docs/Web/API/AbsoluteOrientationSensor
@@ -21,9 +52,11 @@ try{
     navigator.permissions.query({ name: "gyroscope" }),
   ]).then((results) => {
     if (results.every((result) => result.state === "granted")) {
+      // START!
       sensor.start();
       document.getElementById("texto").remove();
-      
+      createUI();
+      createDebugUI();
       
     } else {
       document.getElementById("texto").textContent = "No permissions to use AbsoluteOrientationSensor.";
@@ -35,10 +68,16 @@ try{
     if(saveA){ 
       qA = structuredClone(q);
       saveA = false;
-    } //
+    }
+    if(saveB){
+      qB = structuredClone(q);
+      saveB = false;
+    }
     document.getElementById("quaternion").textContent = `${q[0].toFixed(3)} ${q[1].toFixed(3)} ${q[2].toFixed(3)} ${q[3].toFixed(3)}`;
     document.getElementById("quaternionA").textContent = `${qA[0].toFixed(3)} ${qA[1].toFixed(3)} ${qA[2].toFixed(3)} ${qA[3].toFixed(3)}`;
+    document.getElementById("quaternionB").textContent = `${qB[0].toFixed(3)} ${qB[1].toFixed(3)} ${qB[2].toFixed(3)} ${qB[3].toFixed(3)}`;
     document.getElementById("distanceA").textContent = distance(q, qA).toFixed(5);
+
   });
 }
 catch (error) {
@@ -61,8 +100,12 @@ function distance(q1, q2){ // https://math.stackexchange.com/questions/90081/qua
 }
 
 function doSaveA(){
- document.documentElement.requestFullscreen();
- saveA = true; 
+ saveA = true;
+ let x = navigator.vibrate(100);
+}
+
+function doSaveB(){
+ saveB = true;
  let x = navigator.vibrate(100);
 }
   </script>
@@ -70,10 +113,6 @@ function doSaveA(){
   <p id="texto">Esta aplicación no funciona con tu navegador, prueba utilizando Chrome 67+ en Android, Samsung Internet 9.0+, u Opera 48+ en Android.</p>
   <div id="debug"></div>
   <div id="app"></div>
-  <p id="quaternion">hola</p>
-  <p id="quaternionA">hola</p>
-  <p id="distanceA">hola</p>
-  <button id="saveA" type="button" onclick="doSaveA()">A</button>
   </main>
   <footer>
   </footer>
