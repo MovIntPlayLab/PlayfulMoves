@@ -19,6 +19,7 @@ let qB = [0, 0, 0, 1];
 let areSaved = 0;
 let saveA = false;
 let saveB = false;
+let delta = 0;
 
 function createUI(){
   let app = document.getElementById("app");
@@ -47,6 +48,36 @@ function createDebugUI(){
   let tB = document.createElement("p");
   tB.id = "quaternionB";
   debug.appendChild(tB);
+
+  let slider = document.createElement("input");
+  slider.setAttribute("type", "range");
+  slider.min = 0;
+  slider.max = 1;
+  slider.step = 0.01;
+  slider.id = "slider";
+  debug.appendChild(slider);
+
+  let td = document.createElement("p");
+  td.id = "delta";
+  debug.appendChild(td);
+
+  let tdA = document.createElement("p");
+  tdA.id = "deltaA";
+  debug.appendChild(tdA);
+
+  let tdB = document.createElement("p");
+  tdB.id = "deltaB";
+  debug.appendChild(tdB);
+}
+
+function updateDebugUI(q, qA, qB, param, deltaA, deltaB){
+  document.getElementById("quaternion").textContent = `${q[0].toFixed(3)} ${q[1].toFixed(3)} ${q[2].toFixed(3)} ${q[3].toFixed(3)}`;
+  document.getElementById("quaternionA").textContent = `${qA[0].toFixed(3)} ${qA[1].toFixed(3)} ${qA[2].toFixed(3)} ${qA[3].toFixed(3)}`;
+  document.getElementById("quaternionB").textContent = `${qB[0].toFixed(3)} ${qB[1].toFixed(3)} ${qB[2].toFixed(3)} ${qB[3].toFixed(3)}`;
+  document.getElementById("slider").value = param;
+  document.getElementById("delta").textContent = param.toFixed(5);
+  document.getElementById("deltaA").textContent = deltaA.toFixed(5);
+  document.getElementById("deltaB").textContent = deltaB.toFixed(5);
 }
 
 try{
@@ -64,7 +95,7 @@ try{
       document.getElementById("instrucciones").style.display = "block";
 
     } else {
-      document.getElementById("texto").textContent = "No permissions to use AbsoluteOrientationSensor.";
+      console.log("No permissions to use AbsoluteOrientationSensor.");
     }
   });
   
@@ -72,17 +103,31 @@ try{
     let q = sensor.quaternion;
     if(saveA){ 
       qA = structuredClone(q);
-      saveA = false;
     }
     if(saveB){
       qB = structuredClone(q);
-      saveB = false;
     }
-    document.getElementById("quaternion").textContent = `${q[0].toFixed(3)} ${q[1].toFixed(3)} ${q[2].toFixed(3)} ${q[3].toFixed(3)}`;
-    document.getElementById("quaternionA").textContent = `${qA[0].toFixed(3)} ${qA[1].toFixed(3)} ${qA[2].toFixed(3)} ${qA[3].toFixed(3)}`;
-    document.getElementById("quaternionB").textContent = `${qB[0].toFixed(3)} ${qB[1].toFixed(3)} ${qB[2].toFixed(3)} ${qB[3].toFixed(3)}`;
-    document.getElementById("distanceA").textContent = distance(q, qA).toFixed(5);
+    if((saveA||saveB) && areSaved>1){
+      // calculate total distance between A and B
+      // to be able to calculate where we are in between
+      delta = distance(qA, qB);
+    }
+    saveA = false;
+    saveB = false;
 
+    let deltaA = distance(q, qA);
+    let deltaB = distance(q, qB);
+
+    let param = 0;
+    if(areSaved>1){
+      // calculate param, where 0 is closer to A and 1 is closer to B
+      param = deltaA/(deltaA+deltaB);
+      // too far from A, overflow:
+      if(deltaA/delta > 1 && deltaB/delta < 1){ param = 1 + deltaB/delta; }
+      // too far from B, underflow:
+      else if(deltaB/delta > 1){ param = -deltaA/delta; }
+    }
+    updateDebugUI(q, qA, qB, param, deltaA, deltaB);
   });
 }
 catch (error) {
