@@ -3,32 +3,10 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flex- Playful Moves</title>
+    <title>Flex | Playful Moves</title>
     <script src="https://unpkg.com/tone@15.0.4/build/Tone.js"></script>
-
+    <link href="./style.css" rel="stylesheet" type="text/css" media="all">
   <style>
-  body{
-    background-color:#373B44;
-    color:#eeeeee;
-    font-family: sans-serif;
-  }
-  a{
-    color:#DEE1B6;
-  }
-  footer{
-    font-size:smaller;
-    padding: 2em;
-  }
-  button{
-    display: block;
-    padding: 2em;
-    min-width: 50%;
-    margin: 2em auto;
-    border: none;
-    border-radius: 20px;
-    font-size: large;
-    color: #373B44;
-  }
   #buttonA, #buttonB{
     font-size: xx-large;
   }
@@ -40,9 +18,6 @@
   }
   #instrucciones, #debug, #app{
     display:none;
-  }
-  h1{
-    text-align: center;
   }
   </style>
   </head>
@@ -182,11 +157,12 @@ function start(){
   document.getElementById("app").style.display = "block";
 }
   </script>
-  <main>
-  <p id="texto">Esta aplicación no funciona con tu navegador, prueba utilizando Chrome 67+ en Android, Samsung Internet 9.0+, u Opera 48+ en Android.</p>
- <details open id="instrucciones">
-  <summary>?</summary>
+  <header>
   <h1>flex</h1>
+  </header>
+  <main>
+  <details open id="instrucciones">
+  <summary>?</summary>
   <ol>
       <li>coloca el dispositivo de forma distal a la articulación a ejercitar.</li>
       <li>realiza una extensión máxima y presiona el botón A para guardar la posición.</li>
@@ -195,10 +171,12 @@ function start(){
   </ol>
   <button id="start" onclick="start()">comenzar</button>
   </details>
+  <p id="texto">Esta aplicación no funciona con tu navegador, prueba utilizando Chrome 67+ en Android, Samsung Internet 9.0+, u Opera 48+ en Android.</p>
   <div id="app">
   <button id="buttonA" onclick="doSaveA()">A</button>
   <button id="buttonB" onclick="doSaveB()">B</button>
   </div>
+  </main>
   <footer>
   <p><a href="./index.html">inicio</a></p>
   <details id="debug">
@@ -211,6 +189,5 @@ function start(){
   <p id="deltaA"></p>
   <p id="deltaB"></p>
   </details>
-  </main>
   </footer>
 </body></html>

@@ -1,0 +1,33 @@
+body{
+  background-color:#373B44;
+  color:#eeeeee;
+  font-family: sans-serif;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+main{
+  flex-grow: 1;
+  padding: 2em;
+}
+a{
+  color:#DEE1B6;
+}
+footer{
+  font-size:smaller;
+  padding: 2em;
+}
+button{
+  display: block;
+  padding: 2em;
+  min-width: 50%;
+  margin: 2em auto;
+  border: none;
+  border-radius: 20px;
+  font-size: large;
+  color: #373B44;
+}
+h1{
+  margin: 0;
+  font-size: medium;
+}
