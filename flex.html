@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playful Moves - Flex</title>
+
+  </head>
+  <body>
+  <script>
+let sensor = null; // https://developer.mozilla.org/en-US/docs/Web/API/Sensor_APIs#defensive_programming
+var qA = [0, 0, 0, 1];
+var saveA = false;
+
+try{
+  // https://developer.mozilla.org/en-US/docs/Web/API/AbsoluteOrientationSensor
+  const sensor = new AbsoluteOrientationSensor({ frequency: 60 });
+  Promise.all([
+    navigator.permissions.query({ name: "accelerometer" }),
+    navigator.permissions.query({ name: "magnetometer" }),
+    navigator.permissions.query({ name: "gyroscope" }),
+  ]).then((results) => {
+    if (results.every((result) => result.state === "granted")) {
+      sensor.start();
+      document.getElementById("texto").remove();
+      
+      
+    } else {
+      document.getElementById("texto").textContent = "No permissions to use AbsoluteOrientationSensor.";
+    }
+  });
+  
+  sensor.addEventListener("reading", () => {
+    let q = sensor.quaternion;
+    if(saveA){ 
+      qA = structuredClone(q);
+      saveA = false;
+    } //
+    document.getElementById("quaternion").textContent = `${q[0].toFixed(3)} ${q[1].toFixed(3)} ${q[2].toFixed(3)} ${q[3].toFixed(3)}`;
+    document.getElementById("quaternionA").textContent = `${qA[0].toFixed(3)} ${qA[1].toFixed(3)} ${qA[2].toFixed(3)} ${qA[3].toFixed(3)}`;
+    document.getElementById("distanceA").textContent = distance(q, qA).toFixed(5);
+  });
+}
+catch (error) {
+  //document.getElementById("texto").textContent = error.name;
+  // Handle construction errors.
+  if (error.name === "SecurityError") {
+    // See the note above about permissions policy.
+    console.log("Sensor construction was blocked by a permissions policy.");
+  } else if (error.name === "ReferenceError") {
+    console.log("Sensor is not supported by the User Agent.");
+  } else {
+    throw error;
+  }
+}
+
+
+function distance(q1, q2){ // https://math.stackexchange.com/questions/90081/quaternion-distance
+  let internalProduct = q1[0]*q2[0] + q1[1]*q2[1] + q1[2]*q2[2] + q1[3]*q2[3]; 
+  return (1-internalProduct*internalProduct);
+}
+
+function doSaveA(){
+ document.documentElement.requestFullscreen();
+ saveA = true; 
+ let x = navigator.vibrate(100);
+}
+  </script>
+  <main>
+  <p id="texto">Esta aplicación no funciona con tu navegador, prueba utilizando Chrome 67+ en Android, Samsung Internet 9.0+, u Opera 48+ en Android.</p>
+  <div id="debug"></div>
+  <div id="app"></div>
+  <p id="quaternion">hola</p>
+  <p id="quaternionA">hola</p>
+  <p id="distanceA">hola</p>
+  <button id="saveA" type="button" onclick="doSaveA()">A</button>
+  </main>
+  <footer>
+  </footer>
+</body></html>
