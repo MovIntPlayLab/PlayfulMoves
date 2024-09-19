@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playful Moves</title>
+   
+  </head>
+  <body>
+  <script>
+  // https://developer.mozilla.org/en-US/docs/Web/API/DeviceOrientationEvent
+  window.addEventListener("deviceorientation", (event) => {
+  console.log(`${event.alpha} : ${event.beta} : ${event.gamma}`);
+  document.getElementById("alpha").textContent = `α: ${event.alpha.toFixed(2)}`;
+  document.getElementById("beta").textContent = `β: ${event.beta.toFixed(2)}`;
+  document.getElementById("gamma").textContent = `γ: ${event.gamma.toFixed(2)}`;
+  });
+  </script>
+  <p id="alpha">alpha</p>
+  <p id="beta">beta</p>
+  <p id="gamma">gamma</p>
+  <footer>
+  </footer>
+</body></html>
