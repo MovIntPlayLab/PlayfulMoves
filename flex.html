@@ -6,8 +6,34 @@
     <title>Flex- Playful Moves</title>
 
   <style>
+  body{
+    background-color:#373B44;
+    color:#eeeeee;
+    font-family: sans-serif;
+  }
+  button{
+    display: block;
+    padding: 2em;
+    min-width: 50%;
+    margin: 2em auto;
+    border: none;
+    border-radius: 20px;
+    font-size: large;
+  }
+  #buttonA, #buttonB{
+    font-size: xx-large;
+  }
+  #buttonA{
+    background-color: #73C8A9;
+  }
+  #buttonB{
+    background-color: #E1B866;
+  }
   #instrucciones{
     display:none;
+  }
+  h1{
+    text-align: center;
   }
   </style>
   </head>
@@ -24,11 +50,13 @@ let delta = 0;
 function createUI(){
   let app = document.getElementById("app");
   let bA = document.createElement("button");
+  bA.id = "buttonA";
   bA.innerText = "A";
   bA.addEventListener("click", doSaveA);
   app.appendChild(bA);
 
   let bB = document.createElement("button");
+  bB.id = "buttonB";
   bB.innerText = "B";
   bB.addEventListener("click", doSaveB);
   app.appendChild(bB);
@@ -162,6 +190,7 @@ function doSaveB(){
 }
 
 function start(){
+  document.documentElement.requestFullscreen();
   document.getElementById("instrucciones").style.display = "none";
   createUI();
   createDebugUI();
